@@ -23,6 +23,7 @@ import Cronometro from "./Cronometro.vue";
 export default defineComponent({
   name: "Temporizador",
   components: { Cronometro },
+  emits: ['aoTemporizadorFinalizado'],
   data() {
     return {
       tempoEmSegundos: 0,
@@ -44,6 +45,9 @@ export default defineComponent({
         this.cronometroRodando = false
       // para de executar ao limpar o intervalo
       clearInterval(this.cronometro);
+      // quem estiver ouvind o evento, receberá o 'tempoEmSegundos'
+      this.$emit('aoTemporizadorFinalizado', this.tempoEmSegundos) 
+      this.tempoEmSegundos = 0 // reseta o tempo
     },
   },
 });
