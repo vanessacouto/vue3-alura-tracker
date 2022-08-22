@@ -5,6 +5,10 @@
     </div>
     <div class="column is-three-quarter">
       <Formulario />
+      <div class="lista">
+        <Tarefa />
+        <Tarefa />
+      </div>
     </div>
   </main>
 </template>
@@ -14,6 +18,7 @@
 import { defineComponent } from "vue";
 import BarraLateral from "./components/BarraLateral.vue";
 import Formulario from "./components/Formulario.vue";
+import Tarefa from "./components/Tarefa.vue";
 
 // https://github.com/alura-cursos/alura-tracker
 
@@ -22,8 +27,13 @@ export default defineComponent({
   components: {
     BarraLateral,
     Formulario,
+    Tarefa
   },
 });
 </script>
 
-<style></style>
+<style>
+.lista {
+  padding: 1.25rem;
+}
+</style>
