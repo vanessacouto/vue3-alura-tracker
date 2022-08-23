@@ -13,15 +13,15 @@ export const store = createStore<Estado>({
         projetos: [
             {
                 id: new Date().toISOString(),
-                name: 'TypeScript'
+                nome: 'TypeScript'
             },
             {
                 id: new Date().toISOString(),
-                name: 'Vue'
+                nome: 'Vue'
             },
             {
                 id: new Date().toISOString(),
-                name: 'Vuex'
+                nome: 'Vuex'
             },
         ]
     }
