@@ -14,6 +14,7 @@ import { defineComponent } from "vue";
 import BarraLateral from "./components/BarraLateral.vue";
 
 // https://github.com/alura-cursos/alura-tracker
+// https://github.com/alura-cursos/tracker-2
 
 export default defineComponent({
   name: "App",
