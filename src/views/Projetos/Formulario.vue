@@ -24,18 +24,35 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "Formulario",
+  props: {
+    id: {
+      type: String
+    }
+  },
   data() {
     return {
       nomeDoProjeto: "",
     };
   },
+  mounted () {
+    if (this.id) { // temos a prop 'id' quando estamos editando o Projeto
+      const projeto = this.store.state.projetos.find(proj => proj.id === this.id)
+      this.nomeDoProjeto = projeto?.nome || ''
+    }
+  },
   methods: {
     salvar() {
+      if (this.id) { // edição
+        this.store.commit('ALTERA_PROJETO', {
+          id: this.id,
+          nome: this.nomeDoProjeto
+        })
+      } else {
       // salvar o projeto usando a mutation
-      this.store.commit("ADICIONA_PROJETO", this.nomeDoProjeto);
+      this.store.commit("ADICIONA_PROJETO", this.nomeDoProjeto);  
+      }
       this.nomeDoProjeto = "";
-      // apos salvar, redireciona
-      this.$router.push("/projetos");
+      this.$router.push("/projetos"); // apos salvar, redireciona
     },
   },
   setup() {
