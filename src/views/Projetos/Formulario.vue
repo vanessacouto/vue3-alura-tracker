@@ -20,46 +20,52 @@
 <script lang="ts">
 import { useStore } from "@/store";
 import { defineComponent } from "vue";
-import { ADICIONA_PROJETO, ALTERA_PROJETO, NOTIFICAR } from '@/store/tipo-mutacoes'
+import {
+  ADICIONA_PROJETO,
+  ALTERA_PROJETO
+} from "@/store/tipo-mutacoes";
 import { TipoNotificacao } from "@/interfaces/INotificacao";
+import { notificacaoMixin } from "@/mixins/notificar";
 
 export default defineComponent({
   name: "Formulario",
   props: {
     id: {
-      type: String
-    }
+      type: String,
+    },
   },
+  mixins: [notificacaoMixin],
   data() {
     return {
       nomeDoProjeto: "",
     };
   },
-  mounted () {
-    if (this.id) { // temos a prop 'id' quando estamos editando o Projeto
-      const projeto = this.store.state.projetos.find(proj => proj.id === this.id)
-      this.nomeDoProjeto = projeto?.nome || ''
+  mounted() {
+    if (this.id) {
+      // temos a prop 'id' quando estamos editando o Projeto
+      const projeto = this.store.state.projetos.find(
+        (proj) => proj.id === this.id
+      );
+      this.nomeDoProjeto = projeto?.nome || "";
     }
   },
   methods: {
     salvar() {
-      if (this.id) { // edição
+      if (this.id) {
+        // edição
         this.store.commit(ALTERA_PROJETO, {
           id: this.id,
-          nome: this.nomeDoProjeto
-        })
+          nome: this.nomeDoProjeto,
+        });
       } else {
-      // salvar o projeto usando a mutation
-      this.store.commit(ADICIONA_PROJETO, this.nomeDoProjeto);  
+        // salvar o projeto usando a mutation
+        this.store.commit(ADICIONA_PROJETO, this.nomeDoProjeto);
       }
       this.nomeDoProjeto = "";
-      this.store.commit(NOTIFICAR, {
-        titulo: 'Novo projeto foi salvo',
-        texto: 'Prontinho 😁 seu projeto já está disponível',
-        tipo: TipoNotificacao.SUCESSO
-      })
+      // esta pegando o notificar do 'mixin' (notificacaoMixin)
+      this.notificar(TipoNotificacao.SUCESSO, 'Excelente!', 'O projeto foi cadastrado com sucesso!')
       this.$router.push("/projetos"); // apos salvar, redireciona
-    },
+    }
   },
   setup() {
     const store = useStore();
