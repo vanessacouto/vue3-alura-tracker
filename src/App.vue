@@ -4,6 +4,7 @@
       <BarraLateral @aoTemaAlterado="trocarTema"/>
     </div>
     <div class="column is-three-quarter conteudo">
+      <Notificacoes />
       <router-view></router-view>
     </div>
   </main>
@@ -12,6 +13,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import BarraLateral from "./components/BarraLateral.vue";
+import Notificacoes from "./components/Notificacoes.vue";
 
 // https://github.com/alura-cursos/alura-tracker
 // https://github.com/alura-cursos/tracker-2
@@ -19,7 +21,8 @@ import BarraLateral from "./components/BarraLateral.vue";
 export default defineComponent({
   name: "App",
   components: {
-    BarraLateral
+    BarraLateral,
+    Notificacoes
   },
   data() {
     return {
