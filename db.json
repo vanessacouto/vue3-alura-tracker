@@ -31,6 +31,24 @@
         "id": 4
       },
       "id": 2
+    },
+    {
+      "duracaoEmSegundos": 2,
+      "descricao": "alura aula 01",
+      "projeto": {
+        "id": 3,
+        "nome": "Alura Tracker 3.0"
+      },
+      "id": 3
+    },
+    {
+      "duracaoEmSegundos": 4,
+      "descricao": "aula 02",
+      "projeto": {
+        "id": 3,
+        "nome": "Alura Tracker 3.0"
+      },
+      "id": 4
     }
   ]
 }

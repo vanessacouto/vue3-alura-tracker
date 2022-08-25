@@ -1,14 +1,28 @@
 <template>
   <Formulario @aoSalvarTarefa="salvarTarefa" />
   <div class="lista">
+    <Box v-if="listaVazia"> Você não está muito produtivo hoje 😅 </Box>
+
+    <div class="field">
+      <p class="control has-icons-left">
+        <input
+          v-model="filtro"
+          class="input"
+          type="text"
+          placeholder="Digite para filtrar"
+        />
+        <span class="icon is-small is-left">
+          <i class="fas fa-search"></i>
+        </span>
+      </p>
+    </div>
+
     <Tarefa
       v-for="(tarefa, index) in tarefas"
       :key="index"
       :tarefa="tarefa"
       @aoTarefaClicada="selecionarTarefa"
     />
-    <Box v-if="listaVazia"> Você não está muito produtivo hoje 😅 </Box>
-
     <div
       class="modal"
       :class="{ 'is-active': tarefaSelecionada }"
@@ -36,7 +50,9 @@
           </div>
         </section>
         <footer class="modal-card-foot">
-          <button @click="alterarTarefa" class="button is-success">Salvar alterações</button>
+          <button @click="alterarTarefa" class="button is-success">
+            Salvar alterações
+          </button>
           <button @click="fecharModal" class="button">Cancelar</button>
         </footer>
       </div>
@@ -45,7 +61,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, ref } from "vue";
 import Formulario from "../components/Formulario.vue";
 import Tarefa from "../components/Tarefa.vue";
 import Box from "../components/Box.vue";
@@ -57,8 +73,6 @@ import {
   OBTER_TAREFAS,
 } from "@/store/tipo-acoes";
 import ITarefa from "@/interfaces/ITarefa";
-
-// https://github.com/alura-cursos/alura-tracker
 
 export default defineComponent({
   name: "App",
@@ -88,18 +102,28 @@ export default defineComponent({
       this.tarefaSelecionada = null;
     },
     alterarTarefa() {
-      this.store.dispatch(ALTERAR_TAREFA, this.tarefaSelecionada)
-        .then(() => this.fecharModal())
-    }
+      this.store
+        .dispatch(ALTERAR_TAREFA, this.tarefaSelecionada)
+        .then(() => this.fecharModal());
+    },
   },
   setup() {
     const store = useStore();
     store.dispatch(OBTER_TAREFAS);
     store.dispatch(OBTER_PROJETOS);
 
+    const filtro = ref("");
+
+    const tarefas = computed(() =>
+      store.state.tarefas.filter(
+        (t) => !filtro.value || t.descricao.includes(filtro.value)
+      )
+    );
+
     return {
-      tarefas: computed(() => store.state.tarefas),
+      tarefas,
       store,
+      filtro
     };
   },
 });
