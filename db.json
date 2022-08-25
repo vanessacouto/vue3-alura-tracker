@@ -1,8 +1,23 @@
 {
   "projetos": [
     {
+      "id": 2,
+      "nome": "Shopeeeeee"
+    },
+    {
+      "nome": "Alura Tracker 4.0",
+      "id": 3
+    }
+  ],
+  "tarefas": [
+    {
       "id": 1,
-      "nome": "Alura Tracker 3.0"
+      "duracaoEmSegundos": 120,
+      "descricao": "Config do ambiente",
+      "projeto": {
+        "id": 2,
+        "nome": "Shopeeeeee"
+      }
     }
   ]
 }
