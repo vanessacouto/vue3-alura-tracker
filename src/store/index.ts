@@ -45,8 +45,14 @@ export const store = createStore<Estado>({
         }
     },
     actions: {
-        [OBTER_TAREFAS] ({ commit }) {
-            http.get('tarefas') // o get retorna uma Promise
+        [OBTER_TAREFAS] ({ commit }, filtro: string) {
+            let url = 'tarefas'
+
+            if (filtro) {
+                url += '?descricao=' + filtro
+            }
+
+            http.get(url) // o get retorna uma Promise
                 .then(resposta => commit(DEFINIR_TAREFAS, resposta.data)) // chama o mutation para commitar a ação
         },
         [CADASTRAR_TAREFA] ({ commit }, tarefa: ITarefa) {
