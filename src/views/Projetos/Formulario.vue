@@ -19,7 +19,7 @@
 
 <script lang="ts">
 import { useStore } from "@/store";
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 import { TipoNotificacao } from "@/interfaces/INotificacao";
 import useNotificador from "@/hooks/notificador";
 import { ALTERAR_PROJETO, CADASTRAR_PROJETO } from "@/store/tipo-acoes";
@@ -31,20 +31,22 @@ export default defineComponent({
       type: String,
     },
   },
-  data() {
-    return {
-      nomeDoProjeto: "",
-    };
-  },
-  mounted() {
-    if (this.id) {
-      // temos a prop 'id' quando estamos editando o Projeto
-      const projeto = this.store.state.projeto.projetos.find(
-        (proj) => proj.id == this.id
-      );
-      this.nomeDoProjeto = projeto?.nome || "";
-    }
-  },
+  // vamos fazer o mesmo que tem no 'data()' e 'mounted()' (options API) so que no 'setup()' (composition API)
+  // data() {
+  //   return {
+  //     nomeDoProjeto: "",
+  //   };
+  // },
+  
+  // mounted() {
+  //   if (this.id) {
+  //     // temos a prop 'id' quando estamos editando o Projeto
+  //     const projeto = this.store.state.projeto.projetos.find(
+  //       (proj) => proj.id == this.id
+  //     );
+  //     this.nomeDoProjeto = projeto?.nome || "";
+  //   }
+  // },
   methods: {
     salvar() {
       if (this.id) {
@@ -77,12 +79,25 @@ export default defineComponent({
       this.$router.push("/projetos"); // apos salvar, redireciona
     },
   },
-  setup() {
+  setup(props) {
     const store = useStore();
     const { notificar } = useNotificador();
+
+    // variavel reativa
+    const nomeDoProjeto = ref("")
+
+    if (props.id) {
+      // temos a prop 'id' quando estamos editando o Projeto
+      const projeto = store.state.projeto.projetos.find(
+        (proj) => proj.id == props.id
+      );
+      nomeDoProjeto.value = projeto?.nome || "";
+    }
+
     return {
       store,
       notificar,
+      nomeDoProjeto
     };
   },
 });
