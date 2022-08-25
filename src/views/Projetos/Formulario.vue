@@ -39,7 +39,7 @@ export default defineComponent({
   mounted() {
     if (this.id) {
       // temos a prop 'id' quando estamos editando o Projeto
-      const projeto = this.store.state.projetos.find(
+      const projeto = this.store.state.projeto.projetos.find(
         (proj) => proj.id == this.id
       );
       this.nomeDoProjeto = projeto?.nome || "";

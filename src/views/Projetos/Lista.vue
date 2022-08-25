@@ -54,7 +54,7 @@ export default defineComponent({
     store.dispatch(OBTER_PROJETOS) // 'dispatch' apara ação e o 'commit' para mutação
     
     return {
-      projetos: computed(() => store.state.projetos),
+      projetos: computed(() => store.state.projeto.projetos),
       store
     };
   },
