@@ -17,6 +17,7 @@ import Notificacoes from "./components/Notificacoes.vue";
 
 // https://github.com/alura-cursos/alura-tracker
 // https://github.com/alura-cursos/tracker-2
+// https://github.com/alura-cursos/tracker-3
 
 export default defineComponent({
   name: "App",
