@@ -2,7 +2,9 @@ import INotificacao from '@/interfaces/INotificacao'
 import IProjeto from '@/interfaces/IProjeto'
 import { InjectionKey } from 'vue'
 import { createStore, Store, useStore as vuexUseStore } from 'vuex'
-import { ADICIONA_PROJETO, ALTERA_PROJETO, EXCLUIR_PROJETO, NOTIFICAR } from './tipo-mutacoes'
+import { OBTER_PROJETOS } from './tipo-acoes'
+import { ADICIONA_PROJETO, ALTERA_PROJETO, DEFINIR_PROJETOS, EXCLUIR_PROJETO, NOTIFICAR } from './tipo-mutacoes'
+import http from '@/http'
 
 interface Estado {
     projetos: IProjeto[],
@@ -31,6 +33,9 @@ export const store = createStore<Estado>({
         [EXCLUIR_PROJETO](state, id: string) {
             state.projetos = state.projetos.filter(proj => proj.id != id)
         },
+        [DEFINIR_PROJETOS](state, projetos: IProjeto[]) {
+            state.projetos = projetos
+        },
         [NOTIFICAR](state, novaNotificaao: INotificacao) {
             novaNotificaao.id = new Date().getTime(),
             state.notificacoes.push(novaNotificaao)
@@ -38,6 +43,12 @@ export const store = createStore<Estado>({
             setTimeout(() => {
                 state.notificacoes = state.notificacoes.filter(notificacao => notificacao.id != novaNotificaao.id)
             }, 3000) // depois de 3 segundos, remove a notificao do state
+        }
+    },
+    actions: {
+        [OBTER_PROJETOS] ({ commit }) {
+            http.get('projetos') // o get retorna uma Promise
+                .then(resposta => commit(DEFINIR_PROJETOS, resposta.data)) // chama o mutation para commitar a ação
         }
     }
 })
