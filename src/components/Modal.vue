@@ -5,8 +5,6 @@
     v-if="mostrar"
   >
     <div class="modal-background"></div>
-    <slot />
-
     <div class="modal-card">
       <!-- o slot vai representar todos os elementos que estiverem dentro da tag do Modal -->  
       <slot />
